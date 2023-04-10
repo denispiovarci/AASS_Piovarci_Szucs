@@ -32,4 +32,20 @@ public class UserServiceImpl implements UserService{
 
         userRepository.save(user);
     }
+
+    @Override
+    public void update(UserCreateRequest request){
+        log.info("UserServiceImpl.update({})", request);
+
+        User user = userRepository.findByEmail(request.getEmail());
+        user.setUserName(request.getUserName());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setGender(request.getGender());
+        user.setDateOfBirth(request.getDateOfBirth());
+
+        userRepository.save(user);
+    }
 }

@@ -8,12 +8,18 @@ import SK.AASS.TELCO.app.rest.request.UserCreateRequest;
 public interface UserService {
 
     /**
-     * Creates a user - used for registering the users to the system
+     * Creates an user - used for registering the users to the system
      *
      * @param request
      */
     void create(UserCreateRequest request);
 
-//    void update();
+    /**
+     * Updates the user attributes
+     *
+     * @param request
+     */
+    void update(UserCreateRequest request);
+
 //    void delete();
 }
