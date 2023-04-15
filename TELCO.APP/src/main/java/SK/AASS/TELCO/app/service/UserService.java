@@ -1,6 +1,10 @@
 package SK.AASS.TELCO.app.service;
 
+import SK.AASS.TELCO.app.model.User;
+import SK.AASS.TELCO.app.rest.request.LoginRequest;
 import SK.AASS.TELCO.app.rest.request.UserCreateRequest;
+
+import java.util.List;
 
 /**
  * User service interface
@@ -21,5 +25,21 @@ public interface UserService {
      */
     void update(UserCreateRequest request);
 
-//    void delete();
+    /**
+     * Deletes the user from DB
+     *
+     */
+    void delete(Long id);
+
+    /**
+     * Gets list of all users
+     *
+     */
+    List<User> getAllUsers();
+
+    /**
+     * User authorization
+     *
+     */
+    User login(LoginRequest request);
 }
