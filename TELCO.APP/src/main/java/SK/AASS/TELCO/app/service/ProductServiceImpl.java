@@ -9,6 +9,7 @@ import SK.AASS.TELCO.app.rest.request.LoginRequest;
 import SK.AASS.TELCO.app.rest.request.UserCreateRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import SK.AASS.TELCO.app.camunda.ChargeCardWorker;
 
 import java.util.List;
 
@@ -25,6 +26,8 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public List<Product> getAll(){
         log.info("ProductServiceImpl.getAll()");
+        //ChargeCardWorker.start();
+
 
         return productRepository.findAll();
     }
