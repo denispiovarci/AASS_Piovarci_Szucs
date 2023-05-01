@@ -18,7 +18,8 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "product_id")
+    private Long productId;
 
     @Column(name = "product_type")
     @Enumerated(EnumType.STRING)
@@ -35,6 +36,6 @@ public class Product {
     private Integer amount;
 
     @Column(name = "price")
-    private Double price;
+    private float price;
 
 }
