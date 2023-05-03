@@ -5,6 +5,7 @@ CREATE TABLE APP_USER
     first_name       VARCHAR(255),
     last_name        VARCHAR(255),
     email            VARCHAR(255),
+    tel              VARCHAR(255),
     password         VARCHAR(255),
     gender           VARCHAR(255),
     date_of_birth    TIMESTAMP WITHOUT TIME ZONE,
@@ -61,9 +62,9 @@ ALTER TABLE ORDER_PRODUCT
 ALTER TABLE ORDER_PRODUCT
     ADD CONSTRAINT FK_ORDER_PRODUCT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES PRODUCT (product_id);
 ------------------------------------------------------------------------------------------------------------------
-INSERT INTO APP_USER(user_id, username, first_name, last_name, email, password, gender, date_of_birth, street, residence_number,
+INSERT INTO APP_USER(user_id, username, first_name, last_name, email, tel, password, gender, date_of_birth, street, residence_number,
                      city, postal)
-VALUES (1, 'test_username1', 'Test', 'Test', 'test@test.com', 'test1234', 'MALE', '1970-01-01', 'Ilkovicova', 1,
+VALUES (1, 'test_username1', 'Test', 'Test', 'test@test.com', '0905111111', 'test1234', 'MALE', '1970-01-01', 'Ilkovicova', 1,
         'Bratislava', '842 16');
 
 
