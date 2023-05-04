@@ -19,7 +19,8 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "username", unique = true)
     private String userName;
@@ -33,6 +34,9 @@ public class User {
     @Column(name = "email", unique = true)
     private String email;
 
+    @Column(name = "tel")
+    private String tel;
+
     @Column(name = "password")
     private String password;
 
@@ -42,4 +46,16 @@ public class User {
 
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
+
+    @Column(name = "street")
+    private String street;
+
+    @Column(name = "residence_number")
+    private Integer residenceNumber;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "postal")
+    private String postalCode;
 }
