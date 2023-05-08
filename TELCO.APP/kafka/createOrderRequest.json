@@ -1,0 +1,17 @@
+{
+    "userEmail": "test@test.com",
+    "orderProducts": [
+        {
+            "product": {
+                "productId": 5
+            },
+            "quantity": 1
+        },
+        {
+            "product": {
+                "productId": 6
+            },
+            "quantity": 2
+        }
+    ]
+}
