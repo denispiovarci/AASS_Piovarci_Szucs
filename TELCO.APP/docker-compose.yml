@@ -33,6 +33,12 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+  camunda:
+    image: camunda/camunda-bpm-platform:latest
+    hostname: camunda
+    container_name: camunda
+    ports:
+      - "8000:8080"
 volumes:
   postgres-data:
     driver: local

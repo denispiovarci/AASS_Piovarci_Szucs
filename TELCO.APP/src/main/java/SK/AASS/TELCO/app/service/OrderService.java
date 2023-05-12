@@ -19,7 +19,7 @@ public interface OrderService {
     /**
      * Create order
      */
-    String create(OrderCreateRequest request);
+    Long create(OrderCreateRequest request);
 
     /**
      * Confirm order

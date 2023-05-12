@@ -45,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String create(OrderCreateRequest request) {
+    public Long create(OrderCreateRequest request) {
         log.info("OrderServiceImpl.create({})", request);
 
         User user = userRepository.findByEmail(request.getUserEmail());
@@ -79,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
             orderProductRepository.save(orderProduct);
         }
 
-        return "Your order has been submitted";
+        return orderId;
     }
 
     @Override

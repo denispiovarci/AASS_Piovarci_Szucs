@@ -2,14 +2,9 @@ package SK.AASS.TELCO.app.service;
 
 import SK.AASS.TELCO.app.config.ProductType;
 import SK.AASS.TELCO.app.model.Product;
-import SK.AASS.TELCO.app.model.User;
 import SK.AASS.TELCO.app.repository.ProductRepository;
-import SK.AASS.TELCO.app.repository.UserRepository;
-import SK.AASS.TELCO.app.rest.request.LoginRequest;
-import SK.AASS.TELCO.app.rest.request.UserCreateRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import SK.AASS.TELCO.app.camunda.ChargeCardWorker;
 
 import java.util.List;
 

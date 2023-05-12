@@ -28,7 +28,7 @@ public class OrderRest {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> create(@Valid @RequestBody OrderCreateRequest request){
+    public ResponseEntity<Long> create(@Valid @RequestBody OrderCreateRequest request){
         log.info("OrderRest.create({})", request);
 
         return ResponseEntity.ok().body(orderService.create(request));

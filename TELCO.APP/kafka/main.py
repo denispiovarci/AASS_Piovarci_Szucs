@@ -1,12 +1,14 @@
 # pip install confluent_kafka
+# pip install requests
 
 import json
+import requests
 
 from confluent_kafka.admin import AdminClient, NewTopic
 from confluent_kafka import Producer, KafkaException, Consumer
 
 boostrap_servers = 'localhost:9092'
-consumer_group_id = 'MyConsumerGroup12'
+consumer_group_id = 'MyConsumerGroup15'
 auto_offset_reset = 'earliest'
 
 # Configure admin client
@@ -26,9 +28,25 @@ consumer_client = Consumer({
 })
 
 
-def create_topic():
+def delete_topics():
     topics_list = []
-    topic_name = 'events'
+    partitions_count = 1
+    replication_factor = 1
+    topics_list.append(NewTopic('start', partitions_count, replication_factor))
+    topics_list.append(NewTopic('orderCreated', partitions_count, replication_factor))
+    topics_list.append(NewTopic('orderConfirmed', partitions_count, replication_factor))
+    topics_list.append(NewTopic('invoiceGenerated', partitions_count, replication_factor))
+    topics_list.append(NewTopic('payConfirmed', partitions_count, replication_factor))
+
+    try:
+        admin_client.delete_topics(topics_list)
+    except:
+        pass
+
+
+def create_topic(name):
+    topics_list = []
+    topic_name = name
     partitions_count = 1
     replication_factor = 1
     topics_list.append(NewTopic(topic_name, partitions_count, replication_factor))
@@ -94,30 +112,80 @@ def consume(topic_name):
         messages_list.append(msg.value().decode('utf-8'))
 
     print('Consumer received', messages_counter, 'messages')
-    return messages_list
+    if topic_name == topic_name1:
+        try:
+            response = requests.post('http://localhost:8080/telco/api/v1/order/create', json=json.loads(messages_list[0]))
+            produce(int(response.text), topic_name2)
+        except:
+            return
+    elif topic_name == topic_name2:
+        try:
+            response = requests.post("http://localhost:8080/telco/api/v1/order/" + messages_list[0] + "/confirm")
+            print(response)
+            produce(int(messages_list[0]), topic_name3)
+        except:
+            return
+    elif topic_name == topic_name3:
+        try:
+            response = requests.post("http://localhost:8080/telco/api/v1/order/" + messages_list[0] + "/invoice/create")
+            print(response)
+            produce(int(messages_list[0]), topic_name4)
+        except:
+            return
+    elif topic_name == topic_name4:
+        try:
+            response = requests.post("http://localhost:8080/telco/api/v1/order/" + messages_list[0] + "/pay")
+            print(response)
+            produce(int(messages_list[0]), topic_name5)
+        except:
+            return
+    elif topic_name == topic_name5:
+        try:
+            response = requests.post("http://localhost:8080/telco/api/v1/order/" + messages_list[0] + "/warehouse/update")
+            print(response)
+        except:
+            return
+
+
+    return
 
 
 # ------------------------------------------------------------------------------------------
 
-# creates topic with name 'events'
-topic_name = create_topic()
+while True:
 
-# retrieves list of topics from broker
-get_topics_list()
+    i = input('Press Enter to start, input s to stop!')
 
-# loads the json file containing create order request
-with open('createOrderRequest.json') as f:
-    data = json.load(f)
+    if i == 's':
+        consumer_client.close()
+        break
 
-# prints out the request
-print(data)
+    delete_topics()
 
-# creates Kafka producer and produce data into the events topic
-produce(data, topic_name)
+    topic_name1 = create_topic('start')
+    topic_name2 = create_topic('orderCreated')
+    topic_name3 = create_topic('orderConfirmed')
+    topic_name4 = create_topic('invoiceGenerated')
+    topic_name5 = create_topic('payConfirmed')
 
-# creates Kafka consumer and consume data from events topic
-# docker exec -ti broker /usr/bin/kafka-console-consumer --bootstrap-server broker:29092 --from-beginning --topic events
-# docker exec -ti broker /usr/bin/kafka-console-consumer --bootstrap-server localhost:9092 --from-beginning --topic events
-messages_list = consume('events')
-consumer_client.close()
-print(messages_list)
+    # retrieves list of topics from broker
+    get_topics_list()
+
+    # loads the json file containing create order request
+    with open('createOrderRequest.json') as f:
+        data = json.load(f)
+
+    # prints out the request
+    print(data)
+
+    # creates Kafka producer and produce data into the events topic
+    produce(data, topic_name1)
+
+    # creates Kafka consumer and consume data from events topic
+    # docker exec -ti broker /usr/bin/kafka-console-consumer --bootstrap-server broker:29092 --from-beginning --topic events
+    # docker exec -ti broker /usr/bin/kafka-console-consumer --bootstrap-server localhost:9092 --from-beginning --topic events
+    consume(topic_name1)
+    consume(topic_name2)
+    consume(topic_name3)
+    consume(topic_name4)
+    consume(topic_name5)
