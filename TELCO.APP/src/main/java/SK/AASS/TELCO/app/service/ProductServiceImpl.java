@@ -2,11 +2,7 @@ package SK.AASS.TELCO.app.service;
 
 import SK.AASS.TELCO.app.config.ProductType;
 import SK.AASS.TELCO.app.model.Product;
-import SK.AASS.TELCO.app.model.User;
 import SK.AASS.TELCO.app.repository.ProductRepository;
-import SK.AASS.TELCO.app.repository.UserRepository;
-import SK.AASS.TELCO.app.rest.request.LoginRequest;
-import SK.AASS.TELCO.app.rest.request.UserCreateRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +21,8 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public List<Product> getAll(){
         log.info("ProductServiceImpl.getAll()");
+        //ChargeCardWorker.start();
+
 
         return productRepository.findAll();
     }
